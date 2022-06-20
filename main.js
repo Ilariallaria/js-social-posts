@@ -34,7 +34,7 @@ const posts = [
         date : "04 / 20 / 2021",
         text : "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
         post__image : "https://unsplash.it/600/300?image=171",
-        like : 16,
+        like : 81,
     },
     {
         postId : '3',
@@ -43,7 +43,7 @@ const posts = [
         date : "02 / 14 / 2021",
         text : "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
         post__image : "null",
-        like : 17,
+        like : 123,
     },
 
 ]
@@ -52,8 +52,10 @@ const postContainer = document.getElementById('container');
 allPosts (posts, postContainer);
 
 function allPosts(posts, postContainer){
+    // scorro array
     for(let i = 0; i < posts.length; i++)
-    {
+    {   
+        // salvo ogni dato in una variabile
         const postsMeta = posts[i];
 
         drawPost (postsMeta, postContainer);
@@ -65,6 +67,7 @@ function drawPost(postsMeta){
 
     const {id, profile, name, date, text, post__image, like} = postsMeta;
 
+    // questo riempirà l'html
     const postToDrow = 
     `
         <div class="post">
@@ -98,5 +101,47 @@ function drawPost(postsMeta){
             </div>
         </div>
     `;
+
+    // riempio l'html
     postContainer.innerHTML+= postToDrow;
+}
+
+// EVENTO AL CLICK
+
+const clickableLike = document.querySelectorAll('.js-like-button');
+const textLike = document.querySelectorAll('.js-likes-counter');
+
+for(let i = 0; i< clickableLike.length; i++) {
+    const thisClickableLike = clickableLike[i];
+    thisClickableLike.addEventListener('click', function(event){
+
+        // questo evita che il browser torni sempre in cima
+        event.preventDefault();
+
+        // salviamo in una variabile il numero attuale del contatore
+        const relatedNumberText = textLike[i];
+
+        // lo leggiamo come numero utilizzabile
+        let relatedNumber = parseInt(relatedNumberText.innerHTML);
+
+        // poi, solo se l'elemento su cui ho cliccato non ha già la classe clicked
+        if(!this.classList.contains('like-button--liked')) {
+            
+        // gliela aggiungo
+        this.classList.add('like-button--liked');
+                    
+        // incremento di 1
+        relatedNumber++;
+
+        // e scrivo il numero con incremento
+        relatedNumberText.innerHTML = relatedNumber;
+        }
+
+    });
+
+
+
+
+
+    
 }
